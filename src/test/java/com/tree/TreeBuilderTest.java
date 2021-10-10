@@ -1,5 +1,7 @@
 package com.tree;
 
+import com.tree.branches.Selector;
+import com.tree.branches.Sequence;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,6 +66,12 @@ public class TreeBuilderTest {
     public void selectorNoNodes() {
         Node node = new TreeBuilder().selector().buildTree();
         assertEquals(NodeStates.FAILURE, node.execute());
+    }
+
+    @Test
+    public void selectorOnSelector() {
+        Node node = new TreeBuilder().selector().selector().add(successNode).buildTree();
+        assertEquals(NodeStates.SUCCESS, node.execute());
     }
 
     @Test

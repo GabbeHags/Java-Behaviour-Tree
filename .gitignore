@@ -3,6 +3,9 @@
 *.iml
 *.iws
 
+# JavaDocs
+Java-Docs/
+
 # Maven
 log/
 target/
