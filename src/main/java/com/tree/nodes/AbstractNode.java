@@ -1,6 +1,5 @@
 package com.tree.nodes;
 
-import com.tree.Node;
 import com.tree.NodeStates;
 
 public abstract class AbstractNode implements Node {

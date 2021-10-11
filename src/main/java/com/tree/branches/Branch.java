@@ -1,4 +1,6 @@
-package com.tree;
+package com.tree.branches;
+
+import com.tree.nodes.Node;
 
 import java.util.List;
 

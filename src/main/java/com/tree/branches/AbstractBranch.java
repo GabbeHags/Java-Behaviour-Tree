@@ -1,8 +1,6 @@
 package com.tree.branches;
 
-import com.tree.Branch;
-import com.tree.Node;
-import com.tree.NodeStates;
+import com.tree.nodes.Node;
 import com.tree.nodes.AbstractNode;
 
 import java.util.ArrayList;

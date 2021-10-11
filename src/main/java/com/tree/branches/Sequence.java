@@ -1,6 +1,6 @@
 package com.tree.branches;
 
-import com.tree.Node;
+import com.tree.nodes.Node;
 import com.tree.NodeStates;
 
 /**

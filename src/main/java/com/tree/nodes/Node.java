@@ -1,5 +1,8 @@
-package com.tree;
+package com.tree.nodes;
 
+
+import com.tree.NodeStates;
+import com.tree.TreeBuilder;
 
 /**
  * The Node interface is the building blocks for {@link TreeBuilder}.

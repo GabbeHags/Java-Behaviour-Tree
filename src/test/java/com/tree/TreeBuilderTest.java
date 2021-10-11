@@ -2,6 +2,7 @@ package com.tree;
 
 import com.tree.branches.Selector;
 import com.tree.branches.Sequence;
+import com.tree.nodes.Node;
 import org.junit.Before;
 import org.junit.Test;
 
