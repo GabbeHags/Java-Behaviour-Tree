@@ -1,7 +1,7 @@
-package com.tree;
+package com.behaviour.tree;
 
 
-import com.tree.nodes.Node;
+import com.behaviour.tree.nodes.Node;
 
 /**
  * NodeStates represent all the different states a {@link Node} can be in.

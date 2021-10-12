@@ -1,7 +1,6 @@
-package com.tree.branches;
+package com.behaviour.tree.branches;
 
-import com.tree.nodes.Node;
-import com.tree.nodes.AbstractNode;
+import com.behaviour.tree.nodes.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 /**
  * AbstractBranch represent a Branch, but do not implement execution from {@link Node}.
  */
-public abstract class AbstractBranch extends AbstractNode implements Branch {
+public abstract class AbstractBranch implements Branch {
 
     private final List<Node> nodes;
 

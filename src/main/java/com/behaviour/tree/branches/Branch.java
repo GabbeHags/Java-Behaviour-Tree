@@ -1,6 +1,6 @@
-package com.tree.branches;
+package com.behaviour.tree.branches;
 
-import com.tree.nodes.Node;
+import com.behaviour.tree.nodes.Node;
 
 import java.util.List;
 

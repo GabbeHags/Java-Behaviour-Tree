@@ -1,8 +1,8 @@
-package com.tree.nodes;
+package com.behaviour.tree.nodes;
 
 
-import com.tree.NodeStates;
-import com.tree.TreeBuilder;
+import com.behaviour.tree.TreeBuilder;
+import com.behaviour.tree.NodeStates;
 
 /**
  * The Node interface is the building blocks for {@link TreeBuilder}.
@@ -14,6 +14,6 @@ public interface Node {
      *
      * @return the current state of the execution
      */
-    NodeStates execute();
+    NodeStates tick();
 
 }
