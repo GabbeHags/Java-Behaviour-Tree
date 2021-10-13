@@ -1,20 +1,21 @@
 package com.behaviour.tree.nodes;
 
 import com.behaviour.tree.NodeStates;
-import com.behaviour.tree.utils.Function;
+
+import java.util.function.Function;
 
 
-public class Condition implements Node {
+public class Condition<T> implements Node<T> {
 
-    private final Function<Boolean> function;
+    private final Function<T, Boolean> function;
 
-    public Condition(Function<Boolean> function) {
+    public Condition(Function<T, Boolean> function) {
         this.function = function;
     }
 
     @Override
-    public NodeStates tick() {
-        if (Boolean.TRUE.equals(function.apply())) {
+    public NodeStates tick(T blackBoard) {
+        if (Boolean.TRUE.equals(function.apply(blackBoard))) {
             return NodeStates.SUCCESS;
         }
         return NodeStates.FAILURE;

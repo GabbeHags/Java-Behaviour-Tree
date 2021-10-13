@@ -6,15 +6,15 @@ import com.behaviour.tree.NodeStates;
 /**
  * The Selector class represent an OR-GATE but for a behaviour tree.
  */
-public class Selector extends AbstractBranch {
+public class Selector<T> extends AbstractBranch<T> {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public NodeStates tick() {
-        for (Node node : getNodes()) {
-            NodeStates nodeState = node.tick();
+    public NodeStates tick(T blackBoard) {
+        for (Node<T> node : getNodes()) {
+            NodeStates nodeState = node.tick(blackBoard);
             if (nodeState != NodeStates.FAILURE) {
                 return nodeState;
             }

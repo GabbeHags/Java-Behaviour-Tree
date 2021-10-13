@@ -10,115 +10,119 @@ import static org.junit.Assert.*;
 
 public class TreeBuilderTest {
 
-    Node successNode;
-    Node failureNode;
-    Node runningNode;
+    private class MockBlackBoard {}
+    
+    Node<MockBlackBoard> successNode;
+    Node<MockBlackBoard> failureNode;
+    Node<MockBlackBoard> runningNode;
+    TreeBuilder<MockBlackBoard> treeBuilder;
+    MockBlackBoard blackBoard;
 
     @Before
-    public void setUp() throws Exception {
-        successNode = () -> NodeStates.SUCCESS;
-        failureNode = () -> NodeStates.FAILURE;
-        runningNode = () -> NodeStates.RUNNING;
+    public void setUp() {
+        blackBoard = new MockBlackBoard();
+        treeBuilder = new TreeBuilder<>();
+        successNode = (a) -> NodeStates.SUCCESS;
+        failureNode = (a) -> NodeStates.FAILURE;
+        runningNode = (a) -> NodeStates.RUNNING;
     }
 
     @Test
     public void sequenceNoNodes() {
-        Node node = new TreeBuilder().sequence().end().buildTree();
-        assertEquals(NodeStates.SUCCESS, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.sequence().end().buildTree();
+        assertEquals(NodeStates.SUCCESS, node.tick(blackBoard));
     }
 
     @Test
     public void sequenceSuccessWithOneNode() {
-        Node node = new TreeBuilder().sequence().add(successNode).end().buildTree();
-        assertEquals(NodeStates.SUCCESS, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.sequence().add(successNode).end().buildTree();
+        assertEquals(NodeStates.SUCCESS, node.tick(blackBoard));
     }
 
     @Test
     public void sequenceSuccessWithManyNodes() {
-        Node node = new TreeBuilder().sequence().add(successNode, successNode, successNode).sequence().add(successNode, successNode).end().end().buildTree();
-        System.out.println();
-        assertEquals(NodeStates.SUCCESS, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.sequence().add(successNode, successNode, successNode).sequence().add(successNode, successNode).end().end().buildTree();
+        assertEquals(NodeStates.SUCCESS, node.tick(blackBoard));
     }
 
     @Test
     public void sequenceRunningWithOneNode() {
-        Node node = new TreeBuilder().sequence().add(runningNode).end().buildTree();
-        assertEquals(NodeStates.RUNNING, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.sequence().add(runningNode).end().buildTree();
+        assertEquals(NodeStates.RUNNING, node.tick(blackBoard));
     }
 
     @Test
     public void sequenceRunningWithManyNodes() {
-        Node node = new TreeBuilder().sequence().add(successNode, successNode, successNode).sequence().add(successNode, runningNode).end().end().buildTree();
-        assertEquals(NodeStates.RUNNING, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.sequence().add(successNode, successNode, successNode).sequence().add(successNode, runningNode).end().end().buildTree();
+        assertEquals(NodeStates.RUNNING, node.tick(blackBoard));
     }
 
     @Test
     public void sequenceFailureWithOneNode() {
-        Node node = new TreeBuilder().sequence().add(failureNode).end().buildTree();
-        assertEquals(NodeStates.FAILURE, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.sequence().add(failureNode).end().buildTree();
+        assertEquals(NodeStates.FAILURE, node.tick(blackBoard));
     }
 
     @Test
     public void sequenceFailureWithManyNodes() {
-        Node node = new TreeBuilder().sequence().add(successNode, successNode, successNode).sequence().add(successNode, failureNode).end().end().buildTree();
-        assertEquals(NodeStates.FAILURE, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.sequence().add(successNode, successNode, successNode).sequence().add(successNode, failureNode).end().end().buildTree();
+        assertEquals(NodeStates.FAILURE, node.tick(blackBoard));
     }
 
     @Test
     public void selectorNoNodes() {
-        Node node = new TreeBuilder().selector().end().buildTree();
-        assertEquals(NodeStates.FAILURE, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.selector().end().buildTree();
+        assertEquals(NodeStates.FAILURE, node.tick(blackBoard));
     }
 
     @Test
     public void selectorOnSelector() {
-        Node node = new TreeBuilder().selector().selector().add(successNode).end().end().buildTree();
-        System.out.println();
-        assertEquals(NodeStates.SUCCESS, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.selector().selector().add(successNode).end().end().buildTree();
+        assertEquals(NodeStates.SUCCESS, node.tick(blackBoard));
     }
 
     @Test
     public void selectorSuccessWithOneNode() {
-        Node node = new TreeBuilder().selector().add(successNode).end().buildTree();
-        assertEquals(NodeStates.SUCCESS, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.selector().add(successNode).end().buildTree();
+        assertEquals(NodeStates.SUCCESS, node.tick(blackBoard));
     }
 
     @Test
     public void selectorSuccessWithManyNodes() {
-        Node node1 = new TreeBuilder().selector().add(failureNode, successNode, successNode).end().buildTree();
-        Node mainNode = new TreeBuilder().selector().add(node1, failureNode, runningNode).end().buildTree();
-        assertEquals(NodeStates.SUCCESS, mainNode.tick());
+        Node<MockBlackBoard> node1 = new TreeBuilder<MockBlackBoard>().selector().add(failureNode, successNode, successNode).end().buildTree();
+        Node<MockBlackBoard> mainNode = treeBuilder.selector().add(node1, failureNode, runningNode).end().buildTree();
+        assertEquals(NodeStates.SUCCESS, mainNode.tick(blackBoard));
     }
 
     @Test
     public void selectorRunningWithOneNode() {
-        Node node = new TreeBuilder().selector().add(runningNode).end().buildTree();
-        assertEquals(NodeStates.RUNNING, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.selector().add(runningNode).end().buildTree();
+        assertEquals(NodeStates.RUNNING, node.tick(blackBoard));
     }
 
     @Test
     public void selectorRunningWithManyNodes() {
-        Node node1 = new TreeBuilder().selector().add(failureNode, runningNode, failureNode).end().buildTree();
-        Node mainNode = new TreeBuilder().selector().add(node1, failureNode, runningNode).end().buildTree();
-        assertEquals(NodeStates.RUNNING, mainNode.tick());
+        Node<MockBlackBoard> node1 = new TreeBuilder<MockBlackBoard>().selector().add(failureNode, runningNode, failureNode).end().buildTree();
+        Node<MockBlackBoard> mainNode = treeBuilder.selector().add(node1, failureNode, runningNode).end().buildTree();
+        assertEquals(NodeStates.RUNNING, mainNode.tick(blackBoard));
     }
 
     @Test
     public void selectorFailureWithOneNode() {
-        Node node = new TreeBuilder().selector().add(failureNode).end().buildTree();
-        assertEquals(NodeStates.FAILURE, node.tick());
+        Node<MockBlackBoard> node = treeBuilder.selector().add(failureNode).end().buildTree();
+        assertEquals(NodeStates.FAILURE, node.tick(blackBoard));
     }
 
     @Test
     public void selectorFailureWithManyNodes() {
-        Node node1 = new TreeBuilder().selector().add(failureNode, failureNode, failureNode).end().buildTree();
-        Node mainNode = new TreeBuilder().selector().add(node1, failureNode, failureNode).end().buildTree();
-        assertEquals(NodeStates.FAILURE, mainNode.tick());
+        Node<MockBlackBoard> node1 = new TreeBuilder<MockBlackBoard>().selector().add(failureNode, failureNode, failureNode).end().buildTree();
+        Node<MockBlackBoard> mainNode = treeBuilder.selector().add(node1, failureNode, failureNode).end().buildTree();
+        assertEquals(NodeStates.FAILURE, mainNode.tick(blackBoard));
     }
 
     @Test
     public void addNodeToEmptyTree() {
-        TreeBuilder treeBuilder = new TreeBuilder();
+        TreeBuilder<MockBlackBoard> treeBuilder = new TreeBuilder<>();
         try {
             treeBuilder.add(successNode).end();
             fail();
@@ -128,13 +132,13 @@ public class TreeBuilderTest {
 
     @Test
     public void buildTreeSequence() {
-        Node node = new TreeBuilder().sequence().end().buildTree();
+        Node<MockBlackBoard> node = treeBuilder.sequence().end().buildTree();
         assertTrue(node instanceof Sequence);
     }
 
     @Test
     public void buildTreeSelector() {
-        Node node = new TreeBuilder().selector().end().buildTree();
+        Node<MockBlackBoard> node = treeBuilder.selector().end().buildTree();
         assertTrue(node instanceof Selector);
     }
 }

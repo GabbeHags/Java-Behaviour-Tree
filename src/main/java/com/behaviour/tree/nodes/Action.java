@@ -1,18 +1,20 @@
 package com.behaviour.tree.nodes;
 
-import com.behaviour.tree.utils.Function;
 import com.behaviour.tree.NodeStates;
 
-public class Action implements Node{
+import java.util.function.Function;
 
-    private final Function<NodeStates> function;
 
-    public Action(Function<NodeStates> function) {
+public class Action<T> implements Node<T> {
+
+    private final Function<T, NodeStates> function;
+
+    public Action(Function<T, NodeStates> function) {
         this.function = function;
     }
 
     @Override
-    public NodeStates tick() {
-        return function.apply();
+    public NodeStates tick(T blackboard) {
+        return function.apply(blackboard);
     }
 }

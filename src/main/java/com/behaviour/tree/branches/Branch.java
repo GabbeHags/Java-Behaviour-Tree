@@ -7,19 +7,19 @@ import java.util.List;
 /**
  * The Branch interface represent a collection of {@link Node}s, extends {@link Node}.
  */
-public interface Branch extends Node {
+public interface Branch<T> extends Node<T> {
 
     /**
      * Adds the node to the current branch.
      *
      * @param node the node to be added to the current Branch
      */
-    void addNode(Node node);
+    void addNode(Node<T> node);
 
     /**
      * Returns a list with all the nodes in it.
      *
      * @return a list of all the nodes in this
      */
-    List<Node> getNodes();
+    List<Node<T>> getNodes();
 }
