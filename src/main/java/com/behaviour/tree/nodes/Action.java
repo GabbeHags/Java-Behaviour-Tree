@@ -7,9 +7,9 @@ import java.util.function.Function;
 
 public class Action<T> implements Node<T> {
 
-    private final Function<T, NodeStates> function;
+    private final ActionFunction<T> function;
 
-    public Action(Function<T, NodeStates> function) {
+    public Action(ActionFunction<T> function) {
         this.function = function;
     }
 

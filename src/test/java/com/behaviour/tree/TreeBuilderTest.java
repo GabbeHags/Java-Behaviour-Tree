@@ -24,9 +24,9 @@ public class TreeBuilderTest {
     public void setUp() {
         blackBoard = new MockBlackBoard();
         treeBuilder = new TreeBuilder<>();
-        successNode = (a) -> NodeStates.SUCCESS;
-        failureNode = (a) -> NodeStates.FAILURE;
-        runningNode = (a) -> NodeStates.RUNNING;
+        successNode = a -> NodeStates.SUCCESS;
+        failureNode = a -> NodeStates.FAILURE;
+        runningNode = a -> NodeStates.RUNNING;
     }
 
     @Test

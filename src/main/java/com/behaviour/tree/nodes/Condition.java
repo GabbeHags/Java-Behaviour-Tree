@@ -7,9 +7,9 @@ import java.util.function.Function;
 
 public class Condition<T> implements Node<T> {
 
-    private final Function<T, Boolean> function;
+    private final ConditionFunction<T> function;
 
-    public Condition(Function<T, Boolean> function) {
+    public Condition(ConditionFunction<T> function) {
         this.function = function;
     }
 

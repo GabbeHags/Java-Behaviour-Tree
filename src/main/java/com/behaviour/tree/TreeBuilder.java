@@ -4,9 +4,7 @@ import com.behaviour.tree.branches.Branch;
 import com.behaviour.tree.branches.Selector;
 import com.behaviour.tree.branches.Sequence;
 import com.behaviour.tree.exceptions.*;
-import com.behaviour.tree.nodes.Action;
-import com.behaviour.tree.nodes.Condition;
-import com.behaviour.tree.nodes.Node;
+import com.behaviour.tree.nodes.*;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -24,12 +22,12 @@ public class TreeBuilder<T> {
     }
 
 
-    public TreeBuilder<T> addAction(Function<T, NodeStates> function) {
+    public TreeBuilder<T> addAction(ActionFunction<T> function) {
         return add(new Action<>(function));
     }
 
 
-    public TreeBuilder<T> addCondition(Function<T, Boolean> function) {
+    public TreeBuilder<T> addCondition(ConditionFunction<T> function) {
         return add(new Condition<>(function));
     }
 
