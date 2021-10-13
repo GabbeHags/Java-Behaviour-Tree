@@ -3,6 +3,7 @@ package com.behaviour.tree;
 import com.behaviour.tree.branches.Branch;
 import com.behaviour.tree.branches.Selector;
 import com.behaviour.tree.branches.Sequence;
+import com.behaviour.tree.exceptions.*;
 import com.behaviour.tree.nodes.Action;
 import com.behaviour.tree.nodes.Condition;
 import com.behaviour.tree.nodes.Node;
@@ -44,7 +45,7 @@ public class TreeBuilder<T> {
 
     public TreeBuilder<T> add(Branch<T> parent) {
         if (this.parent != null && branchStack.isEmpty()) {
-            throw new NullPointerException("MismatchedEndException"); // TODO throw a custom error e.g MismatchedEndException
+            throw new MismatchedEndException();
         }
         if(!branchStack.isEmpty()) {
             branchStack.peek().addNode(parent);
@@ -55,7 +56,7 @@ public class TreeBuilder<T> {
 
     public TreeBuilder<T> add(Node<T> node) {
         if (branchStack.peek() == null) {
-            throw new NullPointerException("MissingRootBranchException"); // TODO throw a custom error e.g MissingRootBranchException
+            throw new MissingRootBranchException();
         }
         branchStack.peek().addNode(node);
         return this;
@@ -75,18 +76,18 @@ public class TreeBuilder<T> {
 
     public TreeBuilder<T> end() {
         if (branchStack.isEmpty()) {
-            throw new NullPointerException("TooManyEndsException"); // TODO throw a custom error e.g EndedRootBranchException
+            throw new TooManyEndsException();
         }
         parent = branchStack.pop();
         return this;
     }
 
     public Node<T> buildTree() {
-        if (parent == null ) {
-            throw new NullPointerException("BuildingEmptyTreeException"); // TODO add custom error BuildingEmptyTreeException
-        }
         if (!branchStack.isEmpty()) {
-            throw new NullPointerException("MissingEndException"); // TODO add custom error MissingEndException
+            throw new MissingEndException();
+        }
+        if (parent == null ) {
+            throw new BuildingEmptyTreeException();
         }
         return parent;
     }

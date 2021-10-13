@@ -2,6 +2,7 @@ package com.behaviour.tree;
 
 import com.behaviour.tree.branches.Selector;
 import com.behaviour.tree.branches.Sequence;
+import com.behaviour.tree.exceptions.*;
 import com.behaviour.tree.nodes.Node;
 import org.junit.Before;
 import org.junit.Test;
@@ -121,13 +122,53 @@ public class TreeBuilderTest {
     }
 
     @Test
-    public void addNodeToEmptyTree() {
+    public void missingRootBranchException() {
         TreeBuilder<MockBlackBoard> treeBuilder = new TreeBuilder<>();
         try {
             treeBuilder.add(successNode).end();
             fail();
         }
-        catch (NullPointerException ignored){} // TODO change to correct error
+        catch (MissingRootBranchException ignored){}
+    }
+
+    @Test
+    public void buildingEmptyTreeException() {
+        TreeBuilder<MockBlackBoard> treeBuilder = new TreeBuilder<>();
+        try {
+            treeBuilder.buildTree();
+            fail();
+        }
+        catch (BuildingEmptyTreeException ignored){}
+    }
+
+    @Test
+    public void mismatchedEndException() {
+        TreeBuilder<MockBlackBoard> treeBuilder = new TreeBuilder<>();
+        try {
+            treeBuilder.sequence().add(successNode, successNode).end().sequence().end().buildTree();
+            fail();
+        }
+        catch (MismatchedEndException ignored){}
+    }
+
+    @Test
+    public void missingEndException() {
+        TreeBuilder<MockBlackBoard> treeBuilder = new TreeBuilder<>();
+        try {
+            treeBuilder.sequence().add(successNode, successNode).sequence().end().buildTree();
+            fail();
+        }
+        catch (MissingEndException ignored){}
+    }
+
+    @Test
+    public void tooManyEndsException() {
+        TreeBuilder<MockBlackBoard> treeBuilder = new TreeBuilder<>();
+        try {
+            treeBuilder.sequence().add(successNode, successNode).sequence().end().end().end().buildTree();
+            fail();
+        }
+        catch (TooManyEndsException ignored){}
     }
 
     @Test
