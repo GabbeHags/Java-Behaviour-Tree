@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * AbstractBranch represent a Branch, but do not implement execution from {@link Node}.
  */
-public abstract class AbstractBranch implements Branch {
+public abstract class AbstractBranch<T> implements Branch<T> {
 
-    private final List<Node> nodes;
+    private final List<Node<T>> nodes;
 
     protected AbstractBranch() {
         nodes = new ArrayList<>();
@@ -20,7 +20,7 @@ public abstract class AbstractBranch implements Branch {
      * {@inheritDoc}
      */
     @Override
-    public void addNode(Node node) {
+    public void addNode(Node<T> node) {
         nodes.add(node);
     }
 
@@ -28,7 +28,7 @@ public abstract class AbstractBranch implements Branch {
      * {@inheritDoc}
      */
     @Override
-    public List<Node> getNodes() {
+    public List<Node<T>> getNodes() {
         return new ArrayList<>(nodes);
     }
 
