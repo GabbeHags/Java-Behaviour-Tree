@@ -4,6 +4,7 @@ import com.behaviour.tree.branches.Selector;
 import com.behaviour.tree.branches.Sequence;
 import com.behaviour.tree.exceptions.*;
 import com.behaviour.tree.nodes.Node;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -181,5 +182,35 @@ public class TreeBuilderTest {
     public void buildTreeSelector() {
         Node<MockBlackBoard> node = treeBuilder.selector().end().buildTree();
         assertTrue(node instanceof Selector);
+    }
+
+    @Test
+    public void addActionSuccess() {
+        Node<MockBlackBoard> node = treeBuilder.selector().addAction(action -> NodeStates.SUCCESS).end().buildTree();
+        Assert.assertEquals(NodeStates.SUCCESS, node.tick(blackBoard));
+    }
+
+    @Test
+    public void addActionRunning() {
+        Node<MockBlackBoard> node = treeBuilder.selector().addAction(action -> NodeStates.RUNNING).end().buildTree();
+        Assert.assertEquals(NodeStates.RUNNING, node.tick(blackBoard));
+    }
+
+    @Test
+    public void addActionFailure() {
+        Node<MockBlackBoard> node = treeBuilder.selector().addAction(action -> NodeStates.FAILURE).end().buildTree();
+        Assert.assertEquals( NodeStates.FAILURE, node.tick(blackBoard));
+    }
+
+    @Test
+    public void addConditionTrue() {
+        Node<MockBlackBoard> node = treeBuilder.selector().addCondition(condition -> true).end().buildTree();
+        Assert.assertEquals(NodeStates.SUCCESS, node.tick(blackBoard));
+    }
+
+    @Test
+    public void addConditionFalse() {
+        Node<MockBlackBoard> node = treeBuilder.selector().addCondition(condition -> false).end().buildTree();
+        Assert.assertEquals(NodeStates.FAILURE, node.tick(blackBoard));
     }
 }
