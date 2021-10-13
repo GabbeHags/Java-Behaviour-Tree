@@ -3,7 +3,10 @@ package com.behaviour.tree;
 import com.behaviour.tree.branches.Branch;
 import com.behaviour.tree.branches.Selector;
 import com.behaviour.tree.branches.Sequence;
+import com.behaviour.tree.nodes.Action;
+import com.behaviour.tree.nodes.Condition;
 import com.behaviour.tree.nodes.Node;
+import com.behaviour.tree.utils.Function;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -15,6 +18,16 @@ public class TreeBuilder {
 
     public TreeBuilder() {
         branchStack = new ArrayDeque<>();
+    }
+
+
+    public TreeBuilder addAction(Function<NodeStates> function) {
+        return add(new Action(function));
+    }
+
+
+    public TreeBuilder addCondition(Function<Boolean> function) {
+        return add(new Condition(function));
     }
 
 
