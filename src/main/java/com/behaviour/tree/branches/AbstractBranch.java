@@ -4,6 +4,7 @@ import com.behaviour.tree.nodes.Node;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * AbstractBranch represent a Branch, but do not implement execution from {@link Node}.
@@ -21,7 +22,7 @@ public abstract class AbstractBranch<T> implements Branch<T> {
      */
     @Override
     public void addNode(Node<T> node) {
-        nodes.add(node);
+        nodes.add(Objects.requireNonNull(node, "Node must not be null"));
     }
 
     /**

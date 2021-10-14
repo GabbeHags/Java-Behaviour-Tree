@@ -2,7 +2,7 @@ package com.behaviour.tree.nodes;
 
 import com.behaviour.tree.NodeStates;
 
-import java.util.function.Function;
+import java.util.Objects;
 
 
 public class Action<T> implements Node<T> {
@@ -10,11 +10,11 @@ public class Action<T> implements Node<T> {
     private final ActionFunction<T> function;
 
     public Action(ActionFunction<T> function) {
-        this.function = function;
+        this.function = Objects.requireNonNull(function, "ActionFunction must not be null");
     }
 
     @Override
     public NodeStates tick(T blackboard) {
-        return function.apply(blackboard);
+        return Objects.requireNonNull(function.apply(blackboard), "ActionFunction return value must not be null");
     }
 }
