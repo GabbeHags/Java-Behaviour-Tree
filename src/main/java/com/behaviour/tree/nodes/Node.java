@@ -12,6 +12,8 @@ public interface Node<T> {
     /**
      * Represents the behaviour of this Node.
      *
+     * @param blackBoard is the data that all nodes will get access to.
+     *
      * @return the current state of the execution
      */
     NodeStates tick(T blackBoard);
