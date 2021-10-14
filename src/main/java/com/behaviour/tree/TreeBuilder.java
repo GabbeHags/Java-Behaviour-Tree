@@ -11,6 +11,10 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 
+
+/**
+ * TreeBuilder is a class to build a behaviour tree with {@link Node}s and {@link Branch}es.
+ */
 public class TreeBuilder<T> {
 
     private Branch<T> parent;
@@ -30,12 +34,20 @@ public class TreeBuilder<T> {
         return add(new Condition<>(function));
     }
 
-
+    /**
+     * Creates a new {@link Sequence} and adds it to the end of the current {@link Branch}.
+     *
+     * @return this
+     */
     public TreeBuilder<T> sequence() {
         return add(new Sequence<>());
     }
 
-
+    /**
+     * Creates a new {@link Selector} and adds it to the end of the current {@link Branch}.
+     *
+     * @return this
+     */
     public TreeBuilder<T> selector() {
         return add(new Selector<>());
     }
@@ -51,6 +63,15 @@ public class TreeBuilder<T> {
         return this;
     }
 
+    /**
+     * Adds the node to the current {@link Branch}.
+     * <p>
+     * If root {@link Branch} do not exist, {@link MissingRootBranchException} will be given.
+     *
+     * @param node to be added to the current {@link Branch}
+     *
+     * @return this
+     */
     public TreeBuilder<T> add(Node<T> node) {
         if (branchStack.peek() == null) {
             throw new MissingRootBranchException();
@@ -59,6 +80,15 @@ public class TreeBuilder<T> {
         return this;
     }
 
+    /**
+     * Adds all the nodes to the current {@link Branch}.
+     *<p>
+     * If root {@link Branch} do not exist, {@link MissingRootBranchException} will be given.
+     *
+     * @param nodes to be added to the current {@link Branch}
+     *
+     * @return this
+     */
     @SafeVarargs
     public final TreeBuilder<T> add(Node<T>... nodes) {
         privateAdd(Arrays.asList(nodes));
@@ -71,6 +101,13 @@ public class TreeBuilder<T> {
         }
     }
 
+    /**
+     * Ends the current branch.
+     * <p>
+     * If to many ends are given, {@link TooManyEndsException} will be given.
+     *
+     * @return this
+     */
     public TreeBuilder<T> end() {
         if (branchStack.isEmpty()) {
             throw new TooManyEndsException();
@@ -79,6 +116,11 @@ public class TreeBuilder<T> {
         return this;
     }
 
+    /**
+     * Builds the tree.
+     *
+     * @return the tree as a node
+     */
     public Node<T> buildTree() {
         if (!branchStack.isEmpty()) {
             throw new MissingEndException();
