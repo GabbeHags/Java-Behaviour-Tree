@@ -3,13 +3,11 @@ package com.behaviour.tree;
 import com.behaviour.tree.branches.Branch;
 import com.behaviour.tree.branches.Selector;
 import com.behaviour.tree.branches.Sequence;
+import com.behaviour.tree.branches.SubTree;
 import com.behaviour.tree.exceptions.*;
 import com.behaviour.tree.nodes.*;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -63,6 +61,11 @@ public class TreeBuilder<T> {
         return this;
     }
 
+    public TreeBuilder<T> add(SubTree<T> subTree) {
+        add(subTree.getTree());
+        return this;
+    }
+
     /**
      * Adds the node to the current {@link Branch}.
      * <p>
@@ -76,7 +79,7 @@ public class TreeBuilder<T> {
         if (branchStack.peek() == null) {
             throw new MissingRootBranchException();
         }
-        branchStack.peek().addNode(node);
+        branchStack.peek().addNode(Objects.requireNonNull(node));
         return this;
     }
 
